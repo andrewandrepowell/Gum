@@ -1413,7 +1413,7 @@ namespace Gum.Wireframe
         /// </remarks>
         public virtual void SetInitialState()
         {
-            var elementSave = this.Tag as ElementSave;
+            var elementSave = this.Tag as ElementSave;            
             this.SetVariablesRecursively(elementSave, elementSave.DefaultState);
         }
 
@@ -4421,7 +4421,7 @@ namespace Gum.Wireframe
 
 
         static void SetPropertyThroughReflection(IRenderableIpso mContainedObjectAsIpso, GraphicalUiElement graphicalUiElement, string propertyName, object value)
-        {
+        {            
             System.Reflection.PropertyInfo propertyInfo = mContainedObjectAsIpso.GetType().GetProperty(propertyName);
 
             if (propertyInfo != null && propertyInfo.CanWrite)
@@ -4430,7 +4430,7 @@ namespace Gum.Wireframe
                 if (value.GetType() != propertyInfo.PropertyType)
                 {
                     value = System.Convert.ChangeType(value, propertyInfo.PropertyType);
-                }
+                }                
                 propertyInfo.SetValue(mContainedObjectAsIpso, value, null);
             }
         }
@@ -4445,9 +4445,10 @@ namespace Gum.Wireframe
         /// <param name="value">The value, casted to the correct type.</param>
         public void SetProperty(string propertyName, object value)
         {
-
+            Console.WriteLine($"reach16");
             if (mExposedVariables.ContainsKey(propertyName))
             {
+                Console.WriteLine($"reach17");
                 string underlyingProperty = mExposedVariables[propertyName];
                 int indexOfDot = underlyingProperty.IndexOf('.');
                 string instanceName = underlyingProperty.Substring(0, indexOfDot);
@@ -4462,6 +4463,7 @@ namespace Gum.Wireframe
             }
             else if (ToolsUtilities.StringFunctions.ContainsNoAlloc(propertyName, '.'))
             {
+                Console.WriteLine($"reach18");
                 int indexOfDot = propertyName.IndexOf('.');
                 string instanceName = propertyName.Substring(0, indexOfDot);
                 GraphicalUiElement containedGue = GetGraphicalUiElementByName(instanceName);
@@ -4487,7 +4489,9 @@ namespace Gum.Wireframe
                     throw new Exception($"{nameof(SetPropertyOnRenderable)} must be set on GraphicalUiElement");
                 }
 #endif
+                Console.WriteLine($"reach19");
                 SetPropertyOnRenderable(mContainedObjectAsIpso, this, propertyName, value);
+                Console.WriteLine($"reach20");
             }
         }
 
@@ -4891,11 +4895,12 @@ namespace Gum.Wireframe
             //}
 
 #endif
+            Console.WriteLine("reach9");
             if (GraphicalUiElement.IsAllLayoutSuspended == false)
             {
                 this.SuspendLayout(true);
             }
-
+            Console.WriteLine("reach10");
             var variablesWithoutStatesOnParent =
                 state.Variables.Where(item =>
                 {
@@ -4915,7 +4920,7 @@ namespace Gum.Wireframe
                     return false;
                 }).ToArray();
 
-
+            Console.WriteLine("reach11");
             var parentSettingVariables =
                 variablesWithoutStatesOnParent
                     .Where(item => item.GetRootName() == "Parent")
@@ -4933,27 +4938,29 @@ namespace Gum.Wireframe
             var variablesToConsider =
                 parentSettingVariables.Concat(nonParentSettingVariables)
                 .ToArray();
-
+            Console.WriteLine("reach12");
             int variableCount = variablesToConsider.Length;
             for (int i = 0; i < variableCount; i++)
             {
                 var variable = variablesToConsider[i];
                 if (variable.SetsValue && variable.Value != null)
                 {
+                    Console.WriteLine($"reach Name: ${variable.Name}, ${variable.Value}");
                     this.SetProperty(variable.Name, variable.Value);
                 }
             }
-
+            Console.WriteLine("reach13");
             foreach (var variableList in state.VariableLists)
             {
                 this.SetProperty(variableList.Name, variableList.ValueAsIList);
             }
-
+            Console.WriteLine("reach14");
             if (GraphicalUiElement.IsAllLayoutSuspended == false)
             {
                 this.ResumeLayout(true);
 
             }
+            Console.WriteLine("reach15");
         }
 
         private int GetOrderedIndexForParentVariable(VariableSave item)

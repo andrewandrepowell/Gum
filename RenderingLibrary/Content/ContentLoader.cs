@@ -19,6 +19,9 @@ namespace RenderingLibrary.Content
 
         public T LoadContent<T>(string contentName)
         {
+            Console.WriteLine($"reach30. contentName={contentName}");
+            if (contentName == "Content/core/gum/Content/core/gum/FontCache/Font16Silver_noSmooth_0.png")
+                throw new Exception();            
             if(typeof(T) == typeof(Texture2D))
             {
                 var texture = LoadTexture2D(contentName, SystemManagers);
@@ -88,17 +91,17 @@ namespace RenderingLibrary.Content
         private Texture2D LoadTexture2D(string fileName, SystemManagers managers)
         {
             const bool preserveCase = true;
-
+            
             string fileNameStandardized = FileManager.Standardize(fileName, preserveCase, false);
+            Console.WriteLine($"reach31. {fileNameStandardized}");
+            //if (FileManager.IsRelative(fileNameStandardized) && FileManager.IsUrl(fileName) == false)
+            //{
+            //    fileNameStandardized = FileManager.RelativeDirectory + fileNameStandardized;
 
-            if (FileManager.IsRelative(fileNameStandardized) && FileManager.IsUrl(fileName) == false)
-            {
-                fileNameStandardized = FileManager.RelativeDirectory + fileNameStandardized;
-
-                fileNameStandardized = FileManager.RemoveDotDotSlash(fileNameStandardized);
-            }
-
-
+            //    fileNameStandardized = FileManager.RemoveDotDotSlash(fileNameStandardized);
+            //}
+            Console.WriteLine($"reach32. {fileNameStandardized}");
+            
             Texture2D toReturn = null;
             
             if (LoaderManager.Self.CacheTextures)
@@ -109,7 +112,7 @@ namespace RenderingLibrary.Content
                     return cached;
                 }
             }
-
+            Console.WriteLine($"reach34");
             if (FileManager.IsUrl(fileName))
             {
                 toReturn = LoadTextureFromUrl(fileName, managers);
@@ -122,6 +125,7 @@ namespace RenderingLibrary.Content
             {
                 LoaderManager.Self.AddDisposable(fileNameStandardized, toReturn);
             }
+            Console.WriteLine($"reach35");
             return toReturn;
 
         }
@@ -174,12 +178,12 @@ namespace RenderingLibrary.Content
         {
             string fileNameStandardized = FileManager.Standardize(fileName, true, false);
 
-            if (FileManager.IsRelative(fileNameStandardized))
-            {
-                fileNameStandardized = FileManager.RelativeDirectory + fileNameStandardized;
+            //if (FileManager.IsRelative(fileNameStandardized))
+            //{
+            //    fileNameStandardized = FileManager.RelativeDirectory + fileNameStandardized;
 
-                fileNameStandardized = FileManager.RemoveDotDotSlash(fileNameStandardized);
-            }
+            //    fileNameStandardized = FileManager.RemoveDotDotSlash(fileNameStandardized);
+            //}
 
             Texture2D toReturn;
             string extension = FileManager.GetExtension(fileName);

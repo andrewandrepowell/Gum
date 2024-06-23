@@ -6,6 +6,7 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Xml;
 using System.Runtime.InteropServices.ComTypes;
+using Microsoft.Xna.Framework;
 
 namespace ToolsUtilities
 {
@@ -27,9 +28,7 @@ namespace ToolsUtilities
 #elif ANDROID || IOS
             Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).ToLower().Replace("/", "\\") + "\\";
 #else
-            Path.GetDirectoryName(AppContext.BaseDirectory)
-                .Replace('/', Path.DirectorySeparatorChar)
-                .Replace('\\', Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar;
+            "";
 #endif
 
         static string mRelativeDirectory = ExeLocation;
@@ -108,6 +107,7 @@ namespace ToolsUtilities
 
         public static bool FileExists(string fileName, bool ignoreExtensions)
         {
+            return true;
             fileName = Standardize(fileName, preserveCase: true, makeAbsolute: true);
             if (!ignoreExtensions)
             {
@@ -178,12 +178,13 @@ namespace ToolsUtilities
 
         public static string FromFileText(string fileName, Encoding encoding)
         {
+            Console.WriteLine($"reach35. {fileName}");
             string containedText = "";
 
-            if (IsRelative(fileName))
-            {
-                fileName = RelativeDirectory + fileName;
-            }
+            //if (IsRelative(fileName))
+            //{
+            //    fileName = RelativeDirectory + fileName;
+            //}
 
             fileName = TryRemoveLeadingDotSlash(fileName);
 
@@ -659,12 +660,11 @@ namespace ToolsUtilities
             // Silverlight and 360 don't like ./ at the start of the file name, but that's what we use to identify an absolute path
 			fileName = TryRemoveLeadingDotSlash (fileName);
 #endif
-
-
+            
             using (Stream stream = GetStreamForFile(fileName))
-            {
+            {                
                 try
-                {
+                {                    
                     objectToReturn = XmlDeserializeFromStream<T>(stream);
                 }
                 catch (Exception e)
@@ -699,12 +699,12 @@ namespace ToolsUtilities
 			return Microsoft.Xna.Framework.TitleContainer.OpenStream(fileName);
 #else
             if(CustomGetStreamFromFile != null)
-            {
-                return CustomGetStreamFromFile(fileName);
+            {                
+                return CustomGetStreamFromFile(fileName);                
             }
             else
             {
-                return System.IO.File.OpenRead(fileName);
+                return TitleContainer.OpenStream(fileName);
             }
 #endif
         }
@@ -714,9 +714,9 @@ namespace ToolsUtilities
             Type type = typeof(T);
 
             XmlSerializer serializer = GetXmlSerializer(type);
-
+            
             T objectToReturn = (T)serializer.Deserialize(stream);
-
+            
             return objectToReturn;
         }
 

@@ -306,17 +306,17 @@ namespace Gum.DataTypes
             }
             else
             {
-                if (!System.IO.File.Exists(fileName))
-                {
-                    result.ErrorMessage = $"Could not find main project file {fileName}";
-                    return null;
-                }
+                //if (!System.IO.File.Exists(fileName))
+                //{
+                //    result.ErrorMessage = $"Could not find main project file {fileName}";
+                //    return null;
+                //}
                 try
                 {
                     gps = FileManager.XmlDeserialize<GumProjectSave>(fileName);
                 }
                 catch (FileNotFoundException)
-                {
+                {                    
                     result.MissingFiles.Add(fileName);
                     return null;
                 }
@@ -327,10 +327,10 @@ namespace Gum.DataTypes
                 }
             }
             string projectRootDirectory = FileManager.GetDirectory(fileName);
-
+            
             gps.PopulateElementSavesFromReferences(projectRootDirectory, linkLoadingPreference, result);
             gps.FullFileName = fileName.Replace('\\', '/');
-
+            
 
             return gps;
         }

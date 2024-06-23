@@ -95,9 +95,9 @@ namespace GumRuntime
             GraphicalUiElement toReturn = CreateGueForElement(elementSave);
 
             toReturn.Name = elementSave.Name;
-
+            
             elementSave.SetGraphicalUiElement(toReturn, systemManagers);
-
+            
             //no layering support yet
             if (addToManagers)
             {
@@ -196,9 +196,9 @@ namespace GumRuntime
                     graphicalElement.SetVariablesRecursively(baseElementSave, baseElementSave.DefaultState);
                 }
             }
-
+            Console.WriteLine("reach7");
             graphicalElement.ApplyState(stateSave);
-
+            Console.WriteLine("reach8");
             ApplyVariableReferences(graphicalElement, stateSave);
         }
 
@@ -503,18 +503,19 @@ namespace GumRuntime
         public static void SetGraphicalUiElement(this ElementSave elementSave, GraphicalUiElement toReturn, ISystemManagers systemManagers)
         {
             // We need to set categories and states first since those are used below;
+            Console.WriteLine("reach0");
             toReturn.SetStatesAndCategoriesRecursively(elementSave);
-
+            Console.WriteLine("reach1");
             toReturn.CreateGraphicalComponent(elementSave, systemManagers);
-
+            Console.WriteLine("reach2");
             toReturn.AddExposedVariablesRecursively(elementSave);
-
+            Console.WriteLine("reach3");
             toReturn.CreateChildrenRecursively(elementSave, systemManagers);
-
+            Console.WriteLine("reach4");
             toReturn.Tag = elementSave;
-
+            Console.WriteLine("reach5");
             toReturn.SetInitialState();
-
+            Console.WriteLine("reach6");
             toReturn.AfterFullCreation();
         }
 

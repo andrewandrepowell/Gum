@@ -114,21 +114,24 @@ namespace RenderingLibrary.Graphics
                 // consider ./ as relative instead of whatever FRB thinks is relative:
                 //if (FileManager.IsRelative(texturesToLoad[i]))
                 bool isRelative = unqualifiedTextureNames[i].StartsWith("./") || FileManager.IsRelative(unqualifiedTextureNames[i]);
-
+                
                 if (isRelative)
                 {
                     if (FileManager.IsRelative(directory))
                     {
-                        mTextureNames[i] = FileManager.RelativeDirectory + directory + unqualifiedTextureNames[i];
+                        mTextureNames[i] = directory + unqualifiedTextureNames[i];
+                        Console.WriteLine($"reach40. {mTextureNames[i]}");
                     }
                     else
                     {
                         mTextureNames[i] = directory + unqualifiedTextureNames[i];
+                        Console.WriteLine($"reach41. {mTextureNames[i]}");
                     }
                 }
                 else
                 {
                     mTextureNames[i] = unqualifiedTextureNames[i];
+                    Console.WriteLine($"reach42. {mTextureNames[i]}");
                 }
             }
 

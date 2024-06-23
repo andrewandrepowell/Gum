@@ -84,9 +84,15 @@ namespace Gum.DataTypes
 
         public T ToElementSave<T>(string projectroot, string extension, GumLoadResult result, LinkLoadingPreference linkLoadingPreference = LinkLoadingPreference.PreferLinked) where T : ElementSave, new()
         {
+            {
+                var fullPath = projectroot + Subfolder + "/" + Name + "." + extension;
+                Console.WriteLine($"DEBUG Element File: {fullPath}");
+                T elementSave = FileManager.XmlDeserialize<T>(fullPath);
+                return elementSave;
+            }
             FilePath linkedName = null;
             FilePath containedReferenceName = null;
-
+            
             if (!string.IsNullOrWhiteSpace(this.Link))
             {
                 linkedName = projectroot + this.Link;
@@ -102,7 +108,7 @@ namespace Gum.DataTypes
             {
                 containedReferenceName = ToolsUtilities.FileManager.RelativeDirectory + containedReferenceName.Original;
             }
-
+            
             var isMobile = false;
 #if ANDROID || IOS
             isMobile = true;
@@ -113,7 +119,7 @@ namespace Gum.DataTypes
 
 
             if (linkedName?.Exists() == true)
-            {
+            {                
                 T elementSave = FileManager.XmlDeserialize<T>(linkedName.FullPath);
                 return elementSave;
             }

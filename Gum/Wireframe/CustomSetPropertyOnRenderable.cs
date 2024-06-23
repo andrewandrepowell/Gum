@@ -29,7 +29,7 @@ namespace Gum.Wireframe
         public static void SetPropertyOnRenderable(IRenderableIpso mContainedObjectAsIpso, GraphicalUiElement graphicalUiElement, string propertyName, object value)
         {
             bool handled = false;
-
+            Console.WriteLine($"reach22");
             // First try special-casing.  
 
             if (mContainedObjectAsIpso is Text)
@@ -109,7 +109,7 @@ namespace Gum.Wireframe
                 var sprite = mContainedObjectAsIpso as Sprite;
 
                 if (propertyName == "SourceFile")
-                {
+                {                    
                     var asString = value as String;
                     handled = AssignSourceFileOnSprite(sprite, graphicalUiElement, asString);
 
@@ -182,9 +182,9 @@ namespace Gum.Wireframe
                 var nineSlice = mContainedObjectAsIpso as NineSlice;
 
                 if (propertyName == "SourceFile")
-                {
+                {                    
                     string valueAsString = value as string;
-
+                    Console.WriteLine($"reach24. {valueAsString}");
                     if (string.IsNullOrEmpty(valueAsString))
                     {
                         nineSlice.SetSingleTexture(null);
@@ -196,18 +196,19 @@ namespace Gum.Wireframe
                             valueAsString = ToolsUtilities.FileManager.RelativeDirectory + valueAsString;
                             valueAsString = ToolsUtilities.FileManager.RemoveDotDotSlash(valueAsString);
                         }
-
+                        Console.WriteLine($"reach25. {valueAsString}");
                         //check if part of atlas
                         //Note: assumes that if this filename is in an atlas that all 9 are in an atlas
-                        var atlasedTexture = global::RenderingLibrary.Content.LoaderManager.Self.TryLoadContent<AtlasedTexture>(valueAsString);
+                        var atlasedTexture = global::RenderingLibrary.Content.LoaderManager.Self.TryLoadContent<AtlasedTexture>(valueAsString);                        
                         if (atlasedTexture != null)
-                        {
-                            nineSlice.LoadAtlasedTexture(valueAsString, atlasedTexture);
+                        {                            
+                            nineSlice.LoadAtlasedTexture(valueAsString, atlasedTexture);                            
                         }
                         else
                         {
                             if (NineSliceExtensions.GetIfShouldUsePattern(valueAsString))
                             {
+                                Console.WriteLine($"reach26");
                                 nineSlice.SetTexturesUsingPattern(valueAsString, SystemManagers.Default, false);
                             }
                             else
@@ -216,16 +217,18 @@ namespace Gum.Wireframe
 
                                 Microsoft.Xna.Framework.Graphics.Texture2D texture =
                                     Sprite.InvalidTexture;
-
+                                Console.WriteLine($"reach27");
                                 try
                                 {
+                                    Console.WriteLine($"reach28: {valueAsString}");
                                     texture =
                                         loaderManager.LoadContent<Microsoft.Xna.Framework.Graphics.Texture2D>(valueAsString);
+                                    Console.WriteLine($"reach29");
                                 }
                                 catch (Exception e)
                                 {
                                     if (GraphicalUiElement.MissingFileBehavior == MissingFileBehavior.ThrowException)
-                                    {
+                                    {                                        
                                         string message = $"Error setting SourceFile on NineSlice:\n{valueAsString}";
                                         throw new System.IO.FileNotFoundException(message);
                                     }
