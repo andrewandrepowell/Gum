@@ -85,8 +85,7 @@ namespace Gum.DataTypes
         public T ToElementSave<T>(string projectroot, string extension, GumLoadResult result, LinkLoadingPreference linkLoadingPreference = LinkLoadingPreference.PreferLinked) where T : ElementSave, new()
         {
             {
-                var fullPath = projectroot + Subfolder + "/" + Name + "." + extension;
-                Console.WriteLine($"DEBUG Element File: {fullPath}");
+                var fullPath = projectroot + Subfolder + "/" + Name + "." + extension;                
                 T elementSave = FileManager.XmlDeserialize<T>(fullPath);
                 return elementSave;
             }

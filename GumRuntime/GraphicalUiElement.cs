@@ -4444,11 +4444,9 @@ namespace Gum.Wireframe
         /// <param name="propertyName">The name of the variable on this object such as X or Height. If the property is a state, then the name should be "{CategoryName}State".</param>
         /// <param name="value">The value, casted to the correct type.</param>
         public void SetProperty(string propertyName, object value)
-        {
-            Console.WriteLine($"reach16");
+        {            
             if (mExposedVariables.ContainsKey(propertyName))
-            {
-                Console.WriteLine($"reach17");
+            {                
                 string underlyingProperty = mExposedVariables[propertyName];
                 int indexOfDot = underlyingProperty.IndexOf('.');
                 string instanceName = underlyingProperty.Substring(0, indexOfDot);
@@ -4462,8 +4460,7 @@ namespace Gum.Wireframe
                 }
             }
             else if (ToolsUtilities.StringFunctions.ContainsNoAlloc(propertyName, '.'))
-            {
-                Console.WriteLine($"reach18");
+            {                
                 int indexOfDot = propertyName.IndexOf('.');
                 string instanceName = propertyName.Substring(0, indexOfDot);
                 GraphicalUiElement containedGue = GetGraphicalUiElementByName(instanceName);
@@ -4488,10 +4485,8 @@ namespace Gum.Wireframe
                 {
                     throw new Exception($"{nameof(SetPropertyOnRenderable)} must be set on GraphicalUiElement");
                 }
-#endif
-                Console.WriteLine($"reach19");
-                SetPropertyOnRenderable(mContainedObjectAsIpso, this, propertyName, value);
-                Console.WriteLine($"reach20");
+#endif                
+                SetPropertyOnRenderable(mContainedObjectAsIpso, this, propertyName, value);                
             }
         }
 
@@ -4894,13 +4889,11 @@ namespace Gum.Wireframe
             //    throw new InvalidOperationException("State.ParentContainer is null - did you remember to initialize the state?");
             //}
 
-#endif
-            Console.WriteLine("reach9");
+#endif            
             if (GraphicalUiElement.IsAllLayoutSuspended == false)
             {
                 this.SuspendLayout(true);
-            }
-            Console.WriteLine("reach10");
+            }            
             var variablesWithoutStatesOnParent =
                 state.Variables.Where(item =>
                 {
@@ -4919,8 +4912,7 @@ namespace Gum.Wireframe
                     }
                     return false;
                 }).ToArray();
-
-            Console.WriteLine("reach11");
+            
             var parentSettingVariables =
                 variablesWithoutStatesOnParent
                     .Where(item => item.GetRootName() == "Parent")
@@ -4937,30 +4929,25 @@ namespace Gum.Wireframe
 
             var variablesToConsider =
                 parentSettingVariables.Concat(nonParentSettingVariables)
-                .ToArray();
-            Console.WriteLine("reach12");
+                .ToArray();            
             int variableCount = variablesToConsider.Length;
             for (int i = 0; i < variableCount; i++)
             {
                 var variable = variablesToConsider[i];
                 if (variable.SetsValue && variable.Value != null)
-                {
-                    Console.WriteLine($"reach Name: ${variable.Name}, ${variable.Value}");
+                {                    
                     this.SetProperty(variable.Name, variable.Value);
                 }
-            }
-            Console.WriteLine("reach13");
+            }            
             foreach (var variableList in state.VariableLists)
             {
                 this.SetProperty(variableList.Name, variableList.ValueAsIList);
-            }
-            Console.WriteLine("reach14");
+            }            
             if (GraphicalUiElement.IsAllLayoutSuspended == false)
             {
                 this.ResumeLayout(true);
 
-            }
-            Console.WriteLine("reach15");
+            }            
         }
 
         private int GetOrderedIndexForParentVariable(VariableSave item)

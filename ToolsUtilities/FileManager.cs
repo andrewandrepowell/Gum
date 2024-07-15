@@ -177,8 +177,7 @@ namespace ToolsUtilities
         }
 
         public static string FromFileText(string fileName, Encoding encoding)
-        {
-            Console.WriteLine($"reach35. {fileName}");
+        {            
             string containedText = "";
 
             //if (IsRelative(fileName))

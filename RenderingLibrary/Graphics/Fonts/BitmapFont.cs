@@ -119,19 +119,16 @@ namespace RenderingLibrary.Graphics
                 {
                     if (FileManager.IsRelative(directory))
                     {
-                        mTextureNames[i] = directory + unqualifiedTextureNames[i];
-                        Console.WriteLine($"reach40. {mTextureNames[i]}");
+                        mTextureNames[i] = directory + unqualifiedTextureNames[i];                        
                     }
                     else
                     {
-                        mTextureNames[i] = directory + unqualifiedTextureNames[i];
-                        Console.WriteLine($"reach41. {mTextureNames[i]}");
+                        mTextureNames[i] = directory + unqualifiedTextureNames[i];                        
                     }
                 }
                 else
                 {
-                    mTextureNames[i] = unqualifiedTextureNames[i];
-                    Console.WriteLine($"reach42. {mTextureNames[i]}");
+                    mTextureNames[i] = unqualifiedTextureNames[i];                    
                 }
             }
 

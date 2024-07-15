@@ -18,8 +18,7 @@ namespace RenderingLibrary.Content
         //List<Atlas> atlases = new List<Atlas>();
 
         public T LoadContent<T>(string contentName)
-        {
-            Console.WriteLine($"reach30. contentName={contentName}");
+        {            
             if (contentName == "Content/core/gum/Content/core/gum/FontCache/Font16Silver_noSmooth_0.png")
                 throw new Exception();            
             if(typeof(T) == typeof(Texture2D))
@@ -92,15 +91,13 @@ namespace RenderingLibrary.Content
         {
             const bool preserveCase = true;
             
-            string fileNameStandardized = FileManager.Standardize(fileName, preserveCase, false);
-            Console.WriteLine($"reach31. {fileNameStandardized}");
+            string fileNameStandardized = FileManager.Standardize(fileName, preserveCase, false);            
             //if (FileManager.IsRelative(fileNameStandardized) && FileManager.IsUrl(fileName) == false)
             //{
             //    fileNameStandardized = FileManager.RelativeDirectory + fileNameStandardized;
 
             //    fileNameStandardized = FileManager.RemoveDotDotSlash(fileNameStandardized);
-            //}
-            Console.WriteLine($"reach32. {fileNameStandardized}");
+            //}            
             
             Texture2D toReturn = null;
             
@@ -111,8 +108,7 @@ namespace RenderingLibrary.Content
                 {
                     return cached;
                 }
-            }
-            Console.WriteLine($"reach34");
+            }            
             if (FileManager.IsUrl(fileName))
             {
                 toReturn = LoadTextureFromUrl(fileName, managers);
@@ -124,8 +120,7 @@ namespace RenderingLibrary.Content
             if (LoaderManager.Self.CacheTextures)
             {
                 LoaderManager.Self.AddDisposable(fileNameStandardized, toReturn);
-            }
-            Console.WriteLine($"reach35");
+            }            
             return toReturn;
 
         }

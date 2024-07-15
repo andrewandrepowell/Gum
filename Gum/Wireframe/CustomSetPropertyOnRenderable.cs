@@ -28,8 +28,7 @@ namespace Gum.Wireframe
     {
         public static void SetPropertyOnRenderable(IRenderableIpso mContainedObjectAsIpso, GraphicalUiElement graphicalUiElement, string propertyName, object value)
         {
-            bool handled = false;
-            Console.WriteLine($"reach22");
+            bool handled = false;            
             // First try special-casing.  
 
             if (mContainedObjectAsIpso is Text)
@@ -183,8 +182,7 @@ namespace Gum.Wireframe
 
                 if (propertyName == "SourceFile")
                 {                    
-                    string valueAsString = value as string;
-                    Console.WriteLine($"reach24. {valueAsString}");
+                    string valueAsString = value as string;                    
                     if (string.IsNullOrEmpty(valueAsString))
                     {
                         nineSlice.SetSingleTexture(null);
@@ -195,8 +193,7 @@ namespace Gum.Wireframe
                         {
                             valueAsString = ToolsUtilities.FileManager.RelativeDirectory + valueAsString;
                             valueAsString = ToolsUtilities.FileManager.RemoveDotDotSlash(valueAsString);
-                        }
-                        Console.WriteLine($"reach25. {valueAsString}");
+                        }                        
                         //check if part of atlas
                         //Note: assumes that if this filename is in an atlas that all 9 are in an atlas
                         var atlasedTexture = global::RenderingLibrary.Content.LoaderManager.Self.TryLoadContent<AtlasedTexture>(valueAsString);                        
@@ -207,8 +204,7 @@ namespace Gum.Wireframe
                         else
                         {
                             if (NineSliceExtensions.GetIfShouldUsePattern(valueAsString))
-                            {
-                                Console.WriteLine($"reach26");
+                            {                                
                                 nineSlice.SetTexturesUsingPattern(valueAsString, SystemManagers.Default, false);
                             }
                             else
@@ -216,14 +212,11 @@ namespace Gum.Wireframe
                                 var loaderManager = global::RenderingLibrary.Content.LoaderManager.Self;
 
                                 Microsoft.Xna.Framework.Graphics.Texture2D texture =
-                                    Sprite.InvalidTexture;
-                                Console.WriteLine($"reach27");
+                                    Sprite.InvalidTexture;                                
                                 try
-                                {
-                                    Console.WriteLine($"reach28: {valueAsString}");
+                                {                                    
                                     texture =
-                                        loaderManager.LoadContent<Microsoft.Xna.Framework.Graphics.Texture2D>(valueAsString);
-                                    Console.WriteLine($"reach29");
+                                        loaderManager.LoadContent<Microsoft.Xna.Framework.Graphics.Texture2D>(valueAsString);                                    
                                 }
                                 catch (Exception e)
                                 {

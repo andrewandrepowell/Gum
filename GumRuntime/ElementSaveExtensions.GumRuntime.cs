@@ -195,10 +195,8 @@ namespace GumRuntime
 
                     graphicalElement.SetVariablesRecursively(baseElementSave, baseElementSave.DefaultState);
                 }
-            }
-            Console.WriteLine("reach7");
-            graphicalElement.ApplyState(stateSave);
-            Console.WriteLine("reach8");
+            }            
+            graphicalElement.ApplyState(stateSave);            
             ApplyVariableReferences(graphicalElement, stateSave);
         }
 
@@ -502,20 +500,13 @@ namespace GumRuntime
 
         public static void SetGraphicalUiElement(this ElementSave elementSave, GraphicalUiElement toReturn, ISystemManagers systemManagers)
         {
-            // We need to set categories and states first since those are used below;
-            Console.WriteLine("reach0");
-            toReturn.SetStatesAndCategoriesRecursively(elementSave);
-            Console.WriteLine("reach1");
-            toReturn.CreateGraphicalComponent(elementSave, systemManagers);
-            Console.WriteLine("reach2");
-            toReturn.AddExposedVariablesRecursively(elementSave);
-            Console.WriteLine("reach3");
-            toReturn.CreateChildrenRecursively(elementSave, systemManagers);
-            Console.WriteLine("reach4");
-            toReturn.Tag = elementSave;
-            Console.WriteLine("reach5");
-            toReturn.SetInitialState();
-            Console.WriteLine("reach6");
+            // We need to set categories and states first since those are used below;            
+            toReturn.SetStatesAndCategoriesRecursively(elementSave);            
+            toReturn.CreateGraphicalComponent(elementSave, systemManagers);            
+            toReturn.AddExposedVariablesRecursively(elementSave);            
+            toReturn.CreateChildrenRecursively(elementSave, systemManagers);           
+            toReturn.Tag = elementSave;            
+            toReturn.SetInitialState();            
             toReturn.AfterFullCreation();
         }
 
